@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20230106-student-001" author="alebledea">
+        <createTable tableName="STUDENTS">
+            <column name="STUDENT_ID" type="BIGINT">
+                <constraints primaryKey="true" foreignKeyName="fk_user_id" references="users(id)"/>
+            </column>
+
+            <column name="AGE" type="VARCHAR(255)">
+
+            </column>
+            <column name="LOCATION" type="VARCHAR(255)">
+
+            </column>
+            <column name="PERSONAL_WEBSITE" type="VARCHAR(255)">
+
+            </column>
+            <column name="CURRENT_INSTITUTION" type="VARCHAR(255)">
+
+            </column>
+            <column name="STUDY_PROGRAM" type="VARCHAR(255)">
+
+            </column>
+            <column name="RELEVANT_COURSEWORK" type="VARCHAR(255)">
+
+            </column>
+            <column name="GPA" type="VARCHAR(255)">
+
+            </column>
+            <column name="PAST_EXPERIENCE" type="BIGINT">
+
+            </column>
+            <column name="SKILLS" type="BIGINT">
+
+            </column>
+            <column name="PROJECTS" type="VARCHAR(255)">
+
+            </column>
+            <column name="EXTRACURRICULAR_ACTIVITIES" type="VARCHAR(255)">
+
+            </column>
+            <column name="LANGUAGES" type="VARCHAR(255)">
+
+            </column>
+            <column name="CAREER_OBJECTIVES" type="VARCHAR(255)">
+
+            </column>
+            <column name="REFERENCES" type="VARCHAR(255)">
+
+            </column>
+            <column name="HOBBIES" type="VARCHAR(255)">
+
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
