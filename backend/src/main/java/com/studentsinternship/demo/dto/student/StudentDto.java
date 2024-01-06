@@ -19,7 +19,8 @@ public class StudentDto {
     private String projects;
     private String extracurricularActivities;
     private String languages;
-    private String carrerObjectives;
+    private String careerObjectives;
     private String references;
     private String hobbies;
+    private String achievements;
 }

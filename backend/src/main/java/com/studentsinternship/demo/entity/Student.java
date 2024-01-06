@@ -61,13 +61,16 @@ public class Student {
     @Column(name="languages")
     private String languages;
 
-    @Column(name="carrer_objectives")
-    private String carrerObjectives;
+    @Column(name="career_objectives")
+    private String careerObjectives;
 
     @Column(name="references")
     private String references;
 
     @Column(name="hobbies")
     private String hobbies;
+
+    @Column(name="achievements")
+    private String achievements;
 
 }
