@@ -25,9 +25,9 @@ public class UserController {
     public ResponseEntity<String> addUser(@RequestBody RegisterDto dto) {
         if (!userService.userExists(dto)) {
             userService.createUser(dto);
-            return new ResponseEntity<>("User created succesfully!", HttpStatus.OK);
+            return new ResponseEntity<>("Account created successfully!!", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("The user already exists!", HttpStatus.OK);
+            return new ResponseEntity<>("There already exists an user with the given email!", HttpStatus.OK);
         }
     }
 

@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
                 .role(dto.getRole())
                 .build();
         User savedUser = userRepository.save(user);
-
+        
         if(savedUser.getRole().equals(Role.STUDENT)) {
             Student student = Student.builder()
                     .user(savedUser).build();
