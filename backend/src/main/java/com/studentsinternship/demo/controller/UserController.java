@@ -48,5 +48,4 @@ public class UserController {
     public ResponseEntity<UserDto> getUser(@RequestParam("id") Long id) {
         return new ResponseEntity<>(this.userService.getUserById(id), HttpStatus.OK);
     }
-
 }
