@@ -25,7 +25,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @AllowStudent
     @PostMapping("/add-student")
     public ResponseEntity<String> addStudent(@RequestBody StudentDto dto) {
         if (!studentService.studentExists(dto)) {

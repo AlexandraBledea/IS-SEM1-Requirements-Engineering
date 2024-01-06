@@ -5,6 +5,7 @@ import com.studentsinternship.demo.dto.TokenDto;
 import com.studentsinternship.demo.dto.user.LoginUserDto;
 import com.studentsinternship.demo.entity.User;
 import com.studentsinternship.demo.service.UserService;
+import liquibase.pro.packaged.S;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,6 @@ public class LoginController {
         User userInfo = userService.getUserInformation(dto);
         String jwt = "";
         if(userInfo != null) {
-            System.out.println(userInfo.getId());
             jwt = jwtTokenService.createJwtToken(userInfo.getEmail(), userInfo.getRole(), userInfo.getId());
         }
         TokenDto token = new TokenDto();

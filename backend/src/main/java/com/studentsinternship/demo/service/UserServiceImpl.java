@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService{
             else return null;
         }
         return userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword());
-
     }
 
     @Override

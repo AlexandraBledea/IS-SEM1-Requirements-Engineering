@@ -3,6 +3,7 @@ package com.studentsinternship.demo.config;
 import com.studentsinternship.demo.entity.enums.Role;
 import com.studentsinternship.demo.utils.exceptions.JwtAuthenticationException;
 import io.jsonwebtoken.*;
+import liquibase.pro.packaged.S;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -24,10 +25,8 @@ import java.util.Optional;
 public class JwtTokenService {
 
     private static final long EXPIRATIONTIME = Duration.ofHours(4).toMillis();
-
-    private static final String HEADER_STRING = "Authorization";
-    private static final String CLAIM_USER = "username";
-
+    private static final String HEADER_STRING = "app-auth";
+    private static final String CLAIM_USER = "email";
     private static final String CLAIM_ID = "id";
     private static final String CLAIM_ROLE = "role";
     @Value("${application.secret}")
@@ -57,7 +56,7 @@ public class JwtTokenService {
                             .ofNullable(claims.getBody().get(CLAIM_ROLE))//
                             .map(Object::toString)//
                             .orElseThrow(
-                                    () -> new AuthenticationCredentialsNotFoundException("No type given in jwt"));
+                                    () -> new AuthenticationCredentialsNotFoundException("No role given in jwt"));
 
                     // [ADMIN] -> ADMIN
                     type = type.replaceAll("\\[|\\]", "");
