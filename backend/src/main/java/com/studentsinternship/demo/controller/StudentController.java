@@ -7,6 +7,7 @@ import com.studentsinternship.demo.dto.user.LoginUserDto;
 import com.studentsinternship.demo.entity.User;
 import com.studentsinternship.demo.service.StudentService;
 import com.studentsinternship.demo.service.UserService;
+import com.studentsinternship.demo.utils.annotations.AllowStudent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/student")
 @CrossOrigin()
+@Slf4j
 public class StudentController {
 
     private final StudentService studentService;
@@ -23,6 +25,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @AllowStudent
     @PostMapping("/add-student")
     public ResponseEntity<String> addStudent(@RequestBody StudentDto dto) {
         if (!studentService.studentExists(dto)) {

@@ -5,12 +5,14 @@ import com.studentsinternship.demo.dto.TokenDto;
 import com.studentsinternship.demo.dto.user.LoginUserDto;
 import com.studentsinternship.demo.entity.User;
 import com.studentsinternship.demo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
 @CrossOrigin()
+@Slf4j
 public class LoginController {
 
     private final UserService userService;
