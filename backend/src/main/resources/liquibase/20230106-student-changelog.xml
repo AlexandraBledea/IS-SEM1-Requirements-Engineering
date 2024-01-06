@@ -63,4 +63,37 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20230106-user-003" author="alebledea">
+        <dropColumn tableName="students" columnName="REFERENCES"/>
+    </changeSet>
+
+    <changeSet id="20230106-user-004" author="alebledea">
+        <dropColumn tableName="students" columnName="PAST_EXPERIENCE"/>
+        <addColumn tableName="students">
+            <column name="PAST_EXPERIENCE" type="VARCHAR(255)"></column>
+        </addColumn>
+        <addColumn tableName="students">
+            <column name="REFERENCES" type="VARCHAR(255)"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20230106-user-005" author="alebledea">
+        <dropColumn tableName="students" columnName="REFERENCES"/>
+        <addColumn tableName="students">
+            <column name="FURTHER_REFERENCES" type="VARCHAR(255)"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20230106-user-006" author="alebledea">
+        <dropColumn tableName="students" columnName="SKILLS"/>
+        <addColumn tableName="students">
+            <column name="SKILLS" type="VARCHAR(255)"></column>
+        </addColumn>
+        <dropColumn tableName="students" columnName="AGE"/>
+        <addColumn tableName="students">
+            <column name="AGE" type="BIGINT"></column>
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

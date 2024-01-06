@@ -3,8 +3,14 @@ package com.studentsinternship.demo.service;
 import com.studentsinternship.demo.dto.RegisterDto;
 import com.studentsinternship.demo.dto.user.LoginUserDto;
 import com.studentsinternship.demo.dto.user.UserDto;
+import com.studentsinternship.demo.entity.Company;
+import com.studentsinternship.demo.entity.Recruiter;
+import com.studentsinternship.demo.entity.Student;
 import com.studentsinternship.demo.entity.User;
 import com.studentsinternship.demo.mapper.UserMapper;
+import com.studentsinternship.demo.repository.CompanyRepository;
+import com.studentsinternship.demo.repository.RecruiterRepository;
+import com.studentsinternship.demo.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.studentsinternship.demo.repository.UserRepository;
 import java.util.Optional;
+import com.studentsinternship.demo.entity.enums.Role;
 
 @Service
 @Slf4j
@@ -25,7 +32,14 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Autowired
+    private final StudentRepository studentRepository;
+
+    @Autowired
     private final UserMapper userMapper;
+
+    @Autowired final CompanyRepository companyRepository;
+
+    @Autowired final RecruiterRepository recruiterRepository;
 
     public UserDto authentication(LoginUserDto dto) {
         return userMapper.entityToDto(userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()));
@@ -53,6 +67,22 @@ public class UserServiceImpl implements UserService{
                 .role(dto.getRole())
                 .build();
         User savedUser = userRepository.save(user);
+
+        if(savedUser.getRole().equals(Role.STUDENT)) {
+            Student student = Student.builder()
+                    .user(savedUser).build();
+
+            studentRepository.save(student);
+        }
+        else {
+            Company company = companyRepository.findByName(dto.getCompanyName());
+            Recruiter recruiter = Recruiter.builder()
+                    .company(company)
+                    .user(user)
+                    .build();
+
+            recruiterRepository.save(recruiter);
+        }
         return userMapper.entityToDto(savedUser);
     }
 

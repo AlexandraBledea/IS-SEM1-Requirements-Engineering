@@ -64,7 +64,7 @@ public class Student {
     @Column(name="career_objectives")
     private String careerObjectives;
 
-    @Column(name="references")
+    @Column(name="further_references")
     private String references;
 
     @Column(name="hobbies")

@@ -22,6 +22,7 @@ public class SecurityConfigDefault extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()// for
+                .antMatchers("/user/add-user/**").permitAll()
                 .antMatchers("/login/**").permitAll()//
                 .antMatchers("/sba-websocket/**").permitAll()//
                 .and()

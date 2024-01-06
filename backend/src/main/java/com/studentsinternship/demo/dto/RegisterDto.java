@@ -11,4 +11,5 @@ public class RegisterDto {
     private String surname;
     private String phoneNumber;
     private Role role;
+    private String companyName;
 }

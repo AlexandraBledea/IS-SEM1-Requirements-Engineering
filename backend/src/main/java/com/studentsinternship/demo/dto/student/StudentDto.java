@@ -7,7 +7,7 @@ import lombok.Data;
 public class StudentDto {
     private Long id;
     private UserDto user;
-    private int age;
+    private Long age;
     private String location;
     private String personalWebsite;
     private String currentInstitution;
