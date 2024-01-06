@@ -9,9 +9,9 @@ public interface UserService {
 
     UserDto authentication(LoginUserDto dto);
 
-    User getUserInformation(LoginUserDto dto);
+//    User getUserInformation(LoginUserDto dto);
 
-    UserDto createUser(RegisterDto dto);
+//    UserDto createUser(RegisterDto dto);
 
     boolean userExists(RegisterDto dto);
 

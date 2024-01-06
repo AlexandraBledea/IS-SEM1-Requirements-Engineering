@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.studentsinternship.demo.repository.UserRepository
+import com.studentsinternship.demo.repository.UserRepository;
 import java.util.Optional;
 
 @Service
@@ -18,8 +18,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private final UserRepository userRepository;
@@ -31,30 +31,30 @@ public class UserServiceImpl implements UserService{
         return userMapper.entityToDto(userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()));
     }
 
-    public User getUserInformation(LoginUserDto dto) {
-        User user = userRepository.findByEmail(dto.getEmail());
-        if (user != null) {
-            if (passwordEncoder.matches(dto.getPassword(), user.getPassword()))
-                return user;
-            else return null;
-        }
-        return userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword());
-
-    }
-
-    @Override
-    public UserDto createUser(RegisterDto dto) {
-        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        User user = User.builder().email(dto.getEmail())
-                .password(dto.getPassword())
-                .surname(dto.getSurname())
-                .forename(dto.getForename())
-                .phoneNumber(dto.getPhoneNumber())
-                .role(dto.getRole())
-                .build();
-        User savedUser = userRepository.save(user);
-        return userMapper.entityToDto(savedUser);
-    }
+//    public User getUserInformation(LoginUserDto dto) {
+//        User user = userRepository.findByEmail(dto.getEmail());
+//        if (user != null) {
+//            if (passwordEncoder.matches(dto.getPassword(), user.getPassword()))
+//                return user;
+//            else return null;
+//        }
+//        return userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword());
+//
+//    }
+//
+//    @Override
+//    public UserDto createUser(RegisterDto dto) {
+//        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+//        User user = User.builder().email(dto.getEmail())
+//                .password(dto.getPassword())
+//                .surname(dto.getSurname())
+//                .forename(dto.getForename())
+//                .phoneNumber(dto.getPhoneNumber())
+//                .role(dto.getRole())
+//                .build();
+//        User savedUser = userRepository.save(user);
+//        return userMapper.entityToDto(savedUser);
+//    }
 
     @Override
     public boolean userExists(RegisterDto dto) {
