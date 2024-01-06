@@ -57,4 +57,10 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="20230106-user-002" author="alebledea">
+        <addColumn tableName="students">
+            <column name="ACHIEVEMENTS" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
