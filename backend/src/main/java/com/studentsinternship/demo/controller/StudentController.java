@@ -61,12 +61,15 @@ public class StudentController {
 
     @PostMapping("/apply-for-internship")
     public ResponseEntity<String> applyForInternship(@RequestBody ApplicationDto dto) {
-        if (!studentService.applicationExists(dto) &&
-                (studentService.studentExists(dto.getStudent()) && companyService.internshipExists(dto.getInternship()))) {
-            studentService.applyForInternship(dto);
-            return new ResponseEntity<>("Application created successfully!", HttpStatus.OK);
-        } else {
+        if (studentService.applicationExists(dto))
             return new ResponseEntity<>("The application already exists!", HttpStatus.OK);
-        }
+        if (!studentService.studentExists(dto.getStudent()) )
+            return new ResponseEntity<>("The student is invalid!", HttpStatus.OK);
+        if (!companyService.internshipExists(dto.getInternship()))
+            return new ResponseEntity<>("The internship is invalid!", HttpStatus.OK);
+
+        studentService.applyForInternship(dto);
+        return new ResponseEntity<>("Application created successfully!", HttpStatus.OK);
+
     }
 }
