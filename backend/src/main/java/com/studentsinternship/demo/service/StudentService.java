@@ -1,12 +1,8 @@
 package com.studentsinternship.demo.service;
 
-import com.studentsinternship.demo.dto.RegisterDto;
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.dto.student.StudentDto;
-import com.studentsinternship.demo.entity.Internship;
-import com.studentsinternship.demo.entity.Student;
-import com.studentsinternship.demo.entity.User;
 
 import java.util.List;
 
@@ -22,6 +18,11 @@ public interface StudentService {
 
     List<InternshipDto> listInternshipAnnouncements();
 
+    List<InternshipDto> listFilteredInternshipAnnouncements(Long companyId, String jobTitle, String position);
+
+    List<ApplicationDto> getInternshipApplicationsForStudent(Long studentId);
+
+    List<InternshipDto> searchInternshipAnnouncements(String query);
     void applyForInternship(ApplicationDto dto);
 
     boolean applicationExists(ApplicationDto dto);

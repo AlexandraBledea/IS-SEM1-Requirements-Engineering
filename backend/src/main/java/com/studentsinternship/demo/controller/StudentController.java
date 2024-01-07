@@ -1,16 +1,10 @@
 package com.studentsinternship.demo.controller;
 
-import com.studentsinternship.demo.dto.RegisterDto;
-import com.studentsinternship.demo.dto.TokenDto;
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.dto.student.StudentDto;
-import com.studentsinternship.demo.dto.user.LoginUserDto;
-import com.studentsinternship.demo.entity.User;
 import com.studentsinternship.demo.service.CompanyService;
 import com.studentsinternship.demo.service.StudentService;
-import com.studentsinternship.demo.service.UserService;
-import com.studentsinternship.demo.utils.annotations.AllowStudent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,11 +53,40 @@ public class StudentController {
         return new ResponseEntity<>(internships, HttpStatus.OK);
     }
 
+    @GetMapping("/filter-internship-announcements")
+    public ResponseEntity<List<InternshipDto>> filterInternshipAnnouncements(@RequestParam(required = false) Long companyId,
+                                                                             @RequestParam(required = false) String jobTitle,
+                                                                             @RequestParam(required = false) String position) {
+        List<InternshipDto> internships = studentService.listFilteredInternshipAnnouncements(companyId, jobTitle, position);
+        return new ResponseEntity<>(internships, HttpStatus.OK);
+    }
+
+    @GetMapping("/search-internship-announcements")
+    public ResponseEntity<List<InternshipDto>> searchInternshipAnnouncements(
+            @RequestParam(required = false) String query) {
+        List<InternshipDto> internships = studentService.searchInternshipAnnouncements(query);
+        return new ResponseEntity<>(internships, HttpStatus.OK);
+    }
+
+    @GetMapping("/view-internship-announcement")
+    public ResponseEntity<InternshipDto> viewInternshipAnnouncement(@RequestBody Long internshipId) {
+        InternshipDto internshipDto = companyService.getInternshipAnnouncements(internshipId);
+        if (internshipDto != null)
+            return new ResponseEntity<>(internshipDto, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping("/view-internship-applications")
+    public ResponseEntity<List<ApplicationDto>> viewInternshipApplication(@RequestParam Long studentId) {
+        List<ApplicationDto> applicationsDto = studentService.getInternshipApplicationsForStudent(studentId);
+        return new ResponseEntity<>(applicationsDto, HttpStatus.OK);
+    }
+
     @PostMapping("/apply-for-internship")
     public ResponseEntity<String> applyForInternship(@RequestBody ApplicationDto dto) {
         if (studentService.applicationExists(dto))
             return new ResponseEntity<>("The application already exists!", HttpStatus.OK);
-        if (!studentService.studentExists(dto.getStudent()) )
+        if (!studentService.studentExists(dto.getStudent()))
             return new ResponseEntity<>("The student is invalid!", HttpStatus.OK);
         if (!companyService.internshipExists(dto.getInternship()))
             return new ResponseEntity<>("The internship is invalid!", HttpStatus.OK);
