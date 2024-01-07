@@ -27,7 +27,7 @@ public class UserController {
             userService.createUser(dto);
             return new ResponseEntity<>("Account created successfully!!", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("There already exists an user with the given email!", HttpStatus.OK);
+            return new ResponseEntity<>("There already exists an user with the given email!", HttpStatus.OK );
         }
     }
 
