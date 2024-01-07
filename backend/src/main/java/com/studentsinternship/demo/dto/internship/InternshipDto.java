@@ -11,7 +11,7 @@ public class InternshipDto {
     private String jobDescription;
     private String position;
     private String requirements;
-    private String duration;
+    private Long duration;
     private String schedule;
     private String location;
     private Long availablePositions;
@@ -19,4 +19,5 @@ public class InternshipDto {
     private String process;
     private String deadline;
     private String benefits;
+    private String industry;
 }

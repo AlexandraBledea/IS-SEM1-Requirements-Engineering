@@ -15,6 +15,12 @@ public interface CompanyService {
 
     List<InternshipDto> listInternshipAnnouncements(CompanyDto dto);
 
+    InternshipDto getInternshipAnnouncements(Long internshipId);
+
+    ApplicationDto getInternshipApplication(Long applicationId);
+
+    boolean deleteInternshipAnnouncement(Long internshipId);
+
     void createInternshipAnnouncement(InternshipDto dto);
 
     boolean internshipExists(InternshipDto dto);

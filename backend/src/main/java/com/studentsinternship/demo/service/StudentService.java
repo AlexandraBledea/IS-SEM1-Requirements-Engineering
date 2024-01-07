@@ -1,12 +1,9 @@
 package com.studentsinternship.demo.service;
 
-import com.studentsinternship.demo.dto.RegisterDto;
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.dto.student.StudentDto;
-import com.studentsinternship.demo.entity.Internship;
-import com.studentsinternship.demo.entity.Student;
-import com.studentsinternship.demo.entity.User;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,6 +18,14 @@ public interface StudentService {
     boolean userExists(StudentDto dto);
 
     List<InternshipDto> listInternshipAnnouncements();
+
+    List<InternshipDto> listFilteredInternshipAnnouncements(String position, String companyName, String industry, String location,
+                                                            Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
+                                                            Long durationUpperBound);
+
+    List<ApplicationDto> getInternshipApplicationsForStudent(Long studentId);
+
+    List<InternshipDto> searchInternshipAnnouncements(String query);
 
     void applyForInternship(ApplicationDto dto);
 

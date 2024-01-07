@@ -50,4 +50,17 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="20230107-internship-002" author="alebledea">
+        <dropColumn tableName="internships" columnName="DURATION"/>
+        <addColumn tableName="internships">
+            <column name="DURATION" type="BIGINT"></column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="20230107-internship-003" author="alebledea">
+        <addColumn tableName="internships">
+            <column name="INDUSTRY" type="VARCHAR(255)"></column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

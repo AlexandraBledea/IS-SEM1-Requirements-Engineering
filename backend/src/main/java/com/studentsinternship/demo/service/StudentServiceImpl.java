@@ -21,10 +21,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private final StudentRepository studentRepository;
@@ -75,11 +76,76 @@ public class StudentServiceImpl implements StudentService{
     public List<InternshipDto> listInternshipAnnouncements() {
         List<Internship> internships = internshipRepository.findAll();
         List<InternshipDto> internshipDtos = new ArrayList<>();
-        for(Internship internship: internships) {
+        for (Internship internship : internships) {
             internshipDtos.add(internshipMapper.entityToDto(internship));
         }
         return internshipDtos;
     }
+
+    @Override
+    public List<InternshipDto> listFilteredInternshipAnnouncements(String position, String companyName, String industry, String location,
+                                                                   Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
+                                                                   Long durationUpperBound) {
+        List<InternshipDto> allInternships = listInternshipAnnouncements();
+        return allInternships.stream()
+                .filter(internship -> (companyName == null || internship.getCompany().getName().equalsIgnoreCase(companyName)) &&
+                        (industry == null || internship.getIndustry().equalsIgnoreCase(industry)) &&
+                        (location == null || internship.getLocation().equalsIgnoreCase(location)) &&
+                        (position == null || internship.getPosition().equalsIgnoreCase(position)) &&
+                        (salaryLowerBound == null || (internship.getSalary() != null && internship.getSalary() >= salaryLowerBound)) &&
+                        (salaryUpperBound == null || (internship.getSalary() != null && internship.getSalary() <= salaryUpperBound)) &&
+                        (durationLowerBound == null || (internship.getDuration() != null && internship.getDuration() >= durationLowerBound)) &&
+                        (durationUpperBound == null || (internship.getDuration() != null && internship.getDuration() <= durationUpperBound))
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ApplicationDto> getInternshipApplicationsForStudent(Long studentId) {
+        List<Application> allApplications = applicationRepository.findAll();
+        List<Application> filteredApplications = allApplications.stream()
+                .filter(application -> application.getStudent().getId().equals(studentId))
+                .collect(Collectors.toList());
+
+        return applicationMapper.entitiesToDtos(filteredApplications);
+    }
+
+    @Override
+    public List<InternshipDto> searchInternshipAnnouncements(String query) {
+        List<InternshipDto> allInternships = listInternshipAnnouncements();
+
+        if (query == null || query.isEmpty()) {
+            return allInternships;
+        }
+        String lowerCaseQuery = query.toLowerCase();
+
+        return allInternships.stream()
+                .filter(internship -> {
+                    boolean matchesDuration = false, matchesSalary = false;
+                    try {
+                        int queryAsInt = Integer.parseInt(lowerCaseQuery);
+                        if (internship.getDuration() != null)
+                            matchesDuration = internship.getDuration() == queryAsInt;
+
+                        if (internship.getSalary() != null)
+                            matchesSalary = internship.getSalary() == queryAsInt;
+
+                    } catch (NumberFormatException ignored) {
+                    }
+
+                    return (internship.getJobTitle() != null && internship.getJobTitle().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getJobDescription() != null && internship.getJobDescription().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getPosition() != null && internship.getPosition().toLowerCase().contains(lowerCaseQuery)) ||
+                            matchesDuration ||
+                            matchesSalary ||
+                            (internship.getCompany().getName() != null && internship.getCompany().getName().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getLocation() != null && internship.getLocation().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getIndustry() != null && internship.getIndustry().toLowerCase().contains(lowerCaseQuery));
+
+                })
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void applyForInternship(ApplicationDto dto) {
         Application application = applicationMapper.dtoToEntity(dto);

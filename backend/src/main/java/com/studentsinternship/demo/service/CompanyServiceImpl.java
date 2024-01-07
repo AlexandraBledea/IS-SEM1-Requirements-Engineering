@@ -78,6 +78,24 @@ public class CompanyServiceImpl implements CompanyService{
         }
         return internshipDtos;
     }
+    @Override
+    public InternshipDto getInternshipAnnouncements(Long internshipId) {
+        Optional<Internship> internship = internshipRepository.findById(internshipId);
+        return internship.map(internshipMapper::entityToDto).orElse(null);
+    }
+    @Override
+    public ApplicationDto getInternshipApplication(Long applicationId) {
+        Optional<Application> application = applicationRepository.findById(applicationId);
+        return application.map(applicationMapper::entityToDto).orElse(null);
+    }
+    @Override
+    public boolean deleteInternshipAnnouncement(Long internshipId) {
+        if (internshipRepository.findById(internshipId).isPresent()){
+            internshipRepository.deleteById(internshipId);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public List<ApplicationDto> listInternshipApplications(InternshipDto internshipDto) {

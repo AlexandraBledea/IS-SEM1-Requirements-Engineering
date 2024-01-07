@@ -26,7 +26,7 @@ public class CompanyController {
     }
 
     @PostMapping("/add-company")
-    public ResponseEntity<String> createInternshipAnnouncement(@RequestBody CompanyDto dto) {
+    public ResponseEntity<String> createCompany(@RequestBody CompanyDto dto) {
         if (!companyService.companyExists(dto)) {
             companyService.createCompany(dto);
             return new ResponseEntity<>("Company created successfully!", HttpStatus.OK);
@@ -37,12 +37,30 @@ public class CompanyController {
 
     @GetMapping("/list-internship-announcements")
     public ResponseEntity<List<InternshipDto>> listInternshipAnnouncements(@RequestBody CompanyDto dto) {
-        if(companyService.companyExists(dto)) {
+        if (companyService.companyExists(dto)) {
             List<InternshipDto> internships = companyService.listInternshipAnnouncements(dto);
             return new ResponseEntity<>(internships, HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/view-internship-announcement")
+    public ResponseEntity<InternshipDto> viewInternshipAnnouncement(@RequestBody Long internshipId) {
+        InternshipDto internshipDto = companyService.getInternshipAnnouncements(internshipId);
+        if (internshipDto != null) {
+            return new ResponseEntity<>(internshipDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping("/delete-internship-announcement")
+    public ResponseEntity<String> deleteInternshipAnnouncement(@RequestBody Long internshipId) {
+        if (companyService.deleteInternshipAnnouncement(internshipId)) {
+            return new ResponseEntity<>("Internship announcement deleted successfully!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("The Internship announcement could not be deleted!", HttpStatus.OK);
         }
     }
 
@@ -58,11 +76,20 @@ public class CompanyController {
 
     @PostMapping("/list-internship-applications")
     public ResponseEntity<List<ApplicationDto>> listInternshipApplications(@RequestBody InternshipDto internshipDto) {
-        if(companyService.internshipExists(internshipDto)) {
+        if (companyService.internshipExists(internshipDto)) {
             List<ApplicationDto> internships = companyService.listInternshipApplications(internshipDto);
             return new ResponseEntity<>(internships, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
-        else {
+    }
+
+    @GetMapping("/view-internship-application")
+    public ResponseEntity<ApplicationDto> viewInternshipApplications(@RequestBody Long applicationId) {
+        ApplicationDto applicationDto = companyService.getInternshipApplication(applicationId);
+        if (applicationDto != null) {
+            return new ResponseEntity<>(applicationDto, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
