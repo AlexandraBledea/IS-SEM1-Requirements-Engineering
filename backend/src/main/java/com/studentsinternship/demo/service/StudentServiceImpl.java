@@ -81,13 +81,22 @@ public class StudentServiceImpl implements StudentService {
         }
         return internshipDtos;
     }
+
     @Override
-    public List<InternshipDto> listFilteredInternshipAnnouncements(Long companyId, String jobTitle, String position) {
+    public List<InternshipDto> listFilteredInternshipAnnouncements(String position, String companyName, String industry, String location,
+                                                                   Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
+                                                                   Long durationUpperBound) {
         List<InternshipDto> allInternships = listInternshipAnnouncements();
         return allInternships.stream()
-                .filter(internship -> (companyId == null || internship.getCompany().getId().equals(companyId)) &&
-                        (jobTitle == null || internship.getJobTitle().equalsIgnoreCase(jobTitle)) &&
-                        (position == null || internship.getPosition().equalsIgnoreCase(position)))
+                .filter(internship -> (companyName == null || internship.getCompany().getName().equalsIgnoreCase(companyName)) &&
+                        (industry == null || internship.getIndustry().equalsIgnoreCase(industry)) &&
+                        (location == null || internship.getLocation().equalsIgnoreCase(location)) &&
+                        (position == null || internship.getPosition().equalsIgnoreCase(position)) &&
+                        (salaryLowerBound == null || (internship.getSalary() != null && internship.getSalary() >= salaryLowerBound)) &&
+                        (salaryUpperBound == null || (internship.getSalary() != null && internship.getSalary() <= salaryUpperBound)) &&
+                        (durationLowerBound == null || (internship.getDuration() != null && internship.getDuration() >= durationLowerBound)) &&
+                        (durationUpperBound == null || (internship.getDuration() != null && internship.getDuration() <= durationUpperBound))
+                )
                 .collect(Collectors.toList());
     }
 
@@ -104,23 +113,36 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<InternshipDto> searchInternshipAnnouncements(String query) {
         List<InternshipDto> allInternships = listInternshipAnnouncements();
+
         if (query == null || query.isEmpty()) {
             return allInternships;
         }
         String lowerCaseQuery = query.toLowerCase();
+
         return allInternships.stream()
-                .filter(internship ->
-                        (internship.getJobTitle() != null && internship.getJobTitle().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getJobDescription() != null && internship.getJobDescription().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getPosition() != null && internship.getPosition().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getRequirements() != null && internship.getRequirements().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getDuration() != null && internship.getDuration().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getSchedule() != null && internship.getSchedule().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getLocation() != null && internship.getLocation().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getProcess() != null && internship.getProcess().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getDeadline() != null && internship.getDeadline().toLowerCase().contains(lowerCaseQuery)) ||
-                                (internship.getBenefits() != null && internship.getBenefits().toLowerCase().contains(lowerCaseQuery))
-                )
+                .filter(internship -> {
+                    boolean matchesDuration = false, matchesSalary = false;
+                    try {
+                        int queryAsInt = Integer.parseInt(lowerCaseQuery);
+                        if (internship.getDuration() != null)
+                            matchesDuration = internship.getDuration() == queryAsInt;
+
+                        if (internship.getSalary() != null)
+                            matchesSalary = internship.getSalary() == queryAsInt;
+
+                    } catch (NumberFormatException ignored) {
+                    }
+
+                    return (internship.getJobTitle() != null && internship.getJobTitle().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getJobDescription() != null && internship.getJobDescription().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getPosition() != null && internship.getPosition().toLowerCase().contains(lowerCaseQuery)) ||
+                            matchesDuration ||
+                            matchesSalary ||
+                            (internship.getCompany().getName() != null && internship.getCompany().getName().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getLocation() != null && internship.getLocation().toLowerCase().contains(lowerCaseQuery)) ||
+                            (internship.getIndustry() != null && internship.getIndustry().toLowerCase().contains(lowerCaseQuery));
+
+                })
                 .collect(Collectors.toList());
     }
 

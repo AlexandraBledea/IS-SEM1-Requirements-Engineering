@@ -41,7 +41,7 @@ public class Internship {
     private String requirements;
 
     @Column(name="duration")
-    private String duration;
+    private Long duration;
 
     @Column(name="schedule")
     private String schedule;
@@ -64,4 +64,6 @@ public class Internship {
     @Column(name="benefits")
     private String benefits;
 
+    @Column(name="industry")
+    private String industry;
 }
