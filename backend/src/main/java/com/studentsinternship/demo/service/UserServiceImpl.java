@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto createUser(RegisterDto dto) {
+    public void createUser(RegisterDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User user = User.builder().email(dto.getEmail())
                 .password(dto.getPassword())
@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService{
 
             recruiterRepository.save(recruiter);
         }
-        return userMapper.entityToDto(savedUser);
     }
 
     @Override

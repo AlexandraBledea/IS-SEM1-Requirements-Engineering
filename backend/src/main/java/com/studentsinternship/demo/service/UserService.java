@@ -11,7 +11,7 @@ public interface UserService {
 
     User getUserInformation(LoginUserDto dto);
 
-    UserDto createUser(RegisterDto dto);
+    void createUser(RegisterDto dto);
 
     boolean userExists(RegisterDto dto);
 

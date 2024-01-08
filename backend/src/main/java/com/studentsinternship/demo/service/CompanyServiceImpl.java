@@ -2,6 +2,7 @@ package com.studentsinternship.demo.service;
 
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.company.CompanyDto;
+import com.studentsinternship.demo.dto.internship.CreateUpdateInternshipDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.entity.Application;
 import com.studentsinternship.demo.entity.Company;
@@ -43,8 +44,35 @@ public class CompanyServiceImpl implements CompanyService{
     private final ApplicationMapper applicationMapper;
 
     @Override
-    public void createInternshipAnnouncement(InternshipDto dto) {
-        Internship internship = internshipMapper.dtoToEntity(dto);
+    public Company findCompanyById(Long id){
+        Optional<Company> company = companyRepository.findById(id);
+
+        return company.orElse(null);
+    }
+
+    public Internship createUpdateInternshipDtoToInternship(CreateUpdateInternshipDto dto){
+        Company company = findCompanyById(dto.getCompanyId());
+        return Internship.builder()
+                .company(company)
+                .duration(dto.getDuration())
+                .availablePositions(dto.getAvailablePositions())
+                .jobTitle(dto.getJobTitle())
+                .location(dto.getLocation())
+                .position(dto.getPosition())
+                .process(dto.getProcess())
+                .salary(dto.getSalary())
+                .requirements(dto.getRequirements())
+                .jobDescription(dto.getJobDescription())
+                .schedule(dto.getSchedule())
+                .deadline(dto.getDeadline())
+                .benefits(dto.getBenefits())
+                .industry(dto.getIndustry())
+                .build();
+    }
+
+    @Override
+    public void createInternshipAnnouncement(CreateUpdateInternshipDto dto) {
+        Internship internship = createUpdateInternshipDtoToInternship(dto);
         internshipRepository.save(internship);
     }
 
@@ -56,14 +84,18 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public void createCompany(CompanyDto dto) {
-        Company company = companyMapper.dtoToEntity(dto);
-        companyRepository.save(company);
+        Company company = Company.builder()
+                .name(dto.getName())
+                        .build();
+        Company company1 = companyRepository.save(company);
+        System.out.println(company1);
     }
 
     @Override
     public boolean companyExists(CompanyDto dto) {
-        Optional<Company> company = companyRepository.findById(dto.getId());
-        return company.isPresent();
+         Company company = companyRepository.findByName(dto.getName());
+
+         return company != null;
     }
 
     @Override

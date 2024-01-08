@@ -38,13 +38,11 @@ public class UserController {
     }
 
     @GetMapping("/user-info")
-    @AllowBoth
     public ResponseEntity<UserDto> getUser(@RequestParam("email") String email) {
         return new ResponseEntity<>(this.userService.getUser(email), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    @AllowBoth
     public ResponseEntity<UserDto> getUser(@RequestParam("id") Long id) {
         return new ResponseEntity<>(this.userService.getUserById(id), HttpStatus.OK);
     }

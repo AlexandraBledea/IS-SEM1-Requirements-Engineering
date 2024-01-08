@@ -14,6 +14,8 @@ import com.studentsinternship.demo.repository.ApplicationRepository;
 import com.studentsinternship.demo.repository.InternshipRepository;
 import com.studentsinternship.demo.repository.StudentRepository;
 import com.studentsinternship.demo.repository.UserRepository;
+import liquibase.pro.packaged.O;
+import liquibase.pro.packaged.S;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,11 @@ public class StudentServiceImpl implements StudentService {
     private final ApplicationMapper applicationMapper;
 
     @Override
+    public StudentDto getStudent(Long id) {
+        return studentMapper.entityToDto(studentRepository.getById(id));
+    }
+
+    @Override
     public void createApplicantProfile(StudentDto dto) {
         Student student = studentMapper.dtoToEntity(dto);
         studentRepository.save(student);
@@ -58,6 +65,18 @@ public class StudentServiceImpl implements StudentService {
     public void editApplicantProfile(StudentDto dto) {
         Student student = studentMapper.dtoToEntity(dto);
         studentRepository.save(student);
+        User user = userRepository.getById(student.getId());
+
+        User modifiedUser = User.builder()
+                .phoneNumber(student.getUser().getPhoneNumber())
+                .id(student.getId())
+                .email(student.getUser().getEmail())
+                .forename(student.getUser().getForename())
+                .surname(student.getUser().getSurname())
+                .role(student.getUser().getRole())
+                .password(user.getPassword()).build();
+
+        userRepository.save(modifiedUser);
     }
 
     @Override
@@ -75,27 +94,30 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<InternshipDto> listInternshipAnnouncements() {
         List<Internship> internships = internshipRepository.findAll();
-        List<InternshipDto> internshipDtos = new ArrayList<>();
-        for (Internship internship : internships) {
-            internshipDtos.add(internshipMapper.entityToDto(internship));
-        }
-        return internshipDtos;
+        return internshipMapper.entitiesToDtos(internships);
     }
 
     @Override
-    public List<InternshipDto> listFilteredInternshipAnnouncements(String position, String companyName, String industry, String location,
+    public List<InternshipDto> listFilteredInternshipAnnouncements(String industry, String location,
                                                                    Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
                                                                    Long durationUpperBound) {
         List<InternshipDto> allInternships = listInternshipAnnouncements();
+
+        System.out.println("industry: " + industry);
+        System.out.println("location: " + location);
+        System.out.println("salL:" + salaryLowerBound);
+        System.out.println("salU:" + salaryUpperBound);
+        System.out.println("durL:" + durationLowerBound);
+        System.out.println("durU:" + durationUpperBound);
+
         return allInternships.stream()
-                .filter(internship -> (companyName == null || internship.getCompany().getName().equalsIgnoreCase(companyName)) &&
-                        (industry == null || internship.getIndustry().equalsIgnoreCase(industry)) &&
-                        (location == null || internship.getLocation().equalsIgnoreCase(location)) &&
-                        (position == null || internship.getPosition().equalsIgnoreCase(position)) &&
-                        (salaryLowerBound == null || (internship.getSalary() != null && internship.getSalary() >= salaryLowerBound)) &&
-                        (salaryUpperBound == null || (internship.getSalary() != null && internship.getSalary() <= salaryUpperBound)) &&
-                        (durationLowerBound == null || (internship.getDuration() != null && internship.getDuration() >= durationLowerBound)) &&
-                        (durationUpperBound == null || (internship.getDuration() != null && internship.getDuration() <= durationUpperBound))
+                .filter(internship ->
+                        (location == null || location.isEmpty() || internship.getLocation().equalsIgnoreCase(location)) &&
+                                (industry == null || industry.isEmpty() || internship.getIndustry().equalsIgnoreCase(industry)) &&
+                                (salaryLowerBound == null || (internship.getSalary() != null && internship.getSalary() >= salaryLowerBound)) &&
+                                (salaryUpperBound == null || (internship.getSalary() != null && internship.getSalary() < salaryUpperBound)) &&
+                                (durationLowerBound == null || (internship.getDuration() != null && internship.getDuration() >= durationLowerBound)) &&
+                                (durationUpperBound == null || (internship.getDuration() != null && internship.getDuration() < durationUpperBound))
                 )
                 .collect(Collectors.toList());
     }

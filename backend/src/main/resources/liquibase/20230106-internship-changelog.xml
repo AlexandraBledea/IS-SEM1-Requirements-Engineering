@@ -63,4 +63,23 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20230107-internship-004" author="alebledea">
+        <dropColumn tableName="internships" columnName="JOB_DESCRIPTION"/>
+        <addColumn tableName="internships">
+            <column name="JOB_DESCRIPTION" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="internships" columnName="REQUIREMENTS"/>
+        <addColumn tableName="internships">
+            <column name="REQUIREMENTS" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="internships" columnName="PROCESS"/>
+        <addColumn tableName="internships">
+            <column name="PROCESS" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="internships" columnName="BENEFITS"/>
+        <addColumn tableName="internships">
+            <column name="BENEFITS" type="VARCHAR"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

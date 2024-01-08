@@ -19,7 +19,7 @@ public interface StudentService {
 
     List<InternshipDto> listInternshipAnnouncements();
 
-    List<InternshipDto> listFilteredInternshipAnnouncements(String position, String companyName, String industry, String location,
+    List<InternshipDto> listFilteredInternshipAnnouncements(String industry, String location,
                                                             Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
                                                             Long durationUpperBound);
 
@@ -30,6 +30,8 @@ public interface StudentService {
     void applyForInternship(ApplicationDto dto);
 
     boolean applicationExists(ApplicationDto dto);
+
+    StudentDto getStudent(Long id);
 
 //    boolean userExists(RegisterDto dto);
 //

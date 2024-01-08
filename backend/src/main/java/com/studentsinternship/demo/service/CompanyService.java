@@ -3,12 +3,16 @@ package com.studentsinternship.demo.service;
 
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.company.CompanyDto;
+import com.studentsinternship.demo.dto.internship.CreateUpdateInternshipDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.entity.Application;
+import com.studentsinternship.demo.entity.Company;
 
 import java.util.List;
 
 public interface CompanyService {
+
+    Company findCompanyById(Long id);
     void createCompany(CompanyDto dto);
 
     boolean companyExists(CompanyDto dto);
@@ -21,7 +25,7 @@ public interface CompanyService {
 
     boolean deleteInternshipAnnouncement(Long internshipId);
 
-    void createInternshipAnnouncement(InternshipDto dto);
+    void createInternshipAnnouncement(CreateUpdateInternshipDto dto);
 
     boolean internshipExists(InternshipDto dto);
 

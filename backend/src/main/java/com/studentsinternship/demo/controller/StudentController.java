@@ -27,6 +27,11 @@ public class StudentController {
         this.companyService = companyService;
     }
 
+    @GetMapping("/get-student")
+    public ResponseEntity<StudentDto> getStudent(@RequestParam("id") Long id){
+        return new ResponseEntity<>(studentService.getStudent(id), HttpStatus.OK);
+    }
+
     @PostMapping("/add-student")
     public ResponseEntity<String> addStudent(@RequestBody StudentDto dto) {
         if (studentService.userExists(dto)) {
@@ -54,16 +59,14 @@ public class StudentController {
     }
 
     @GetMapping("/filter-internship-announcements")
-    public ResponseEntity<List<InternshipDto>> filterInternshipAnnouncements(@RequestParam(required = false) String position,
-                                                                             @RequestParam(required = false) String companyName,
-                                                                             @RequestParam(required = false) String industry,
+    public ResponseEntity<List<InternshipDto>> filterInternshipAnnouncements(@RequestParam(required = false) String industry,
                                                                              @RequestParam(required = false) String location,
                                                                              @RequestParam(required = false) Long salaryLowerBound,
                                                                              @RequestParam(required = false) Long salaryUpperBound,
                                                                              @RequestParam(required = false) Long durationLowerBound,
                                                                              @RequestParam(required = false) Long durationUpperBound
                                                                              ) {
-        List<InternshipDto> internships = studentService.listFilteredInternshipAnnouncements(position, companyName, industry, location, salaryLowerBound, salaryUpperBound, durationLowerBound, durationUpperBound);
+        List<InternshipDto> internships = studentService.listFilteredInternshipAnnouncements(industry, location, salaryLowerBound, salaryUpperBound, durationLowerBound, durationUpperBound);
         return new ResponseEntity<>(internships, HttpStatus.OK);
     }
 

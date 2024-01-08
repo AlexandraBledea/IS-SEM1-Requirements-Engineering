@@ -95,5 +95,44 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20230107-student-007" author="alebledea">
+        <dropColumn tableName="students" columnName="CURRENT_INSTITUTION"/>
+        <addColumn tableName="students">
+            <column name="CURRENT_INSTITUTION" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="STUDY_PROGRAM"/>
+        <addColumn tableName="students">
+            <column name="STUDY_PROGRAM" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="RELEVANT_COURSEWORK"/>
+        <addColumn tableName="students">
+            <column name="RELEVANT_COURSEWORK" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="LANGUAGES"/>
+        <addColumn tableName="students">
+            <column name="LANGUAGES" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="PAST_EXPERIENCE"/>
+        <addColumn tableName="students">
+            <column name="PAST_EXPERIENCE" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="PROJECTS"/>
+        <addColumn tableName="students">
+            <column name="PROJECTS" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="EXTRACURRICULAR_ACTIVITIES"/>
+        <addColumn tableName="students">
+            <column name="EXTRACURRICULAR_ACTIVITIES" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="CAREER_OBJECTIVES"/>
+        <addColumn tableName="students">
+            <column name="CAREER_OBJECTIVES" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="students" columnName="FURTHER_REFERENCES"/>
+        <addColumn tableName="students">
+            <column name="FURTHER_REFERENCES" type="VARCHAR"/>
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

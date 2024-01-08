@@ -2,6 +2,7 @@ package com.studentsinternship.demo.controller;
 
 import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.company.CompanyDto;
+import com.studentsinternship.demo.dto.internship.CreateUpdateInternshipDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
 import com.studentsinternship.demo.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,13 +66,9 @@ public class CompanyController {
     }
 
     @PostMapping("/create-internship-announcement")
-    public ResponseEntity<String> createInternshipAnnouncement(@RequestBody InternshipDto dto) {
-        if (!companyService.internshipExists(dto)) {
-            companyService.createInternshipAnnouncement(dto);
-            return new ResponseEntity<>("Internship announcement created successfully!", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("The internship announcement already exists!", HttpStatus.OK);
-        }
+    public ResponseEntity<String> createInternshipAnnouncement(@RequestBody CreateUpdateInternshipDto dto) {
+        companyService.createInternshipAnnouncement(dto);
+        return new ResponseEntity<>("Internship announcement created successfully!", HttpStatus.OK);
     }
 
     @PostMapping("/list-internship-applications")
