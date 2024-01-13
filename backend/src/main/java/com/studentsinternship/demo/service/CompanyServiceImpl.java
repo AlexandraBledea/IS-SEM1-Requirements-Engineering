@@ -134,6 +134,7 @@ public class CompanyServiceImpl implements CompanyService{
         List<Application> applications = applicationRepository.findAll().stream()
                 .filter(application -> application.getInternship() != null && application.getInternship().getCompany() != null)
                 .filter(application -> internshipDto.getCompany().getId().equals(application.getInternship().getCompany().getId()))
+                .filter(application -> internshipDto.getId().equals(application.getInternship().getId()))
                 .collect(Collectors.toList());
         List<ApplicationDto> applicationDtos = new ArrayList<>();
         for(Application application: applications) {
