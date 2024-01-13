@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -175,7 +176,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean applicationExists(ApplicationDto dto) {
-        Optional<Application> application = applicationRepository.findById(dto.getId());
-        return application.isPresent();
+        List<Application> applications = applicationRepository.findAll();
+
+
+        applications = applications.stream().filter(application -> Objects.equals(application.getInternship().getId(), dto.getInternship().getId()))
+                .filter(application -> Objects.equals(application.getStudent().getId(), dto.getStudent().getId())).collect(Collectors.toList());
+
+        return !applications.isEmpty();
+
     }
 }
