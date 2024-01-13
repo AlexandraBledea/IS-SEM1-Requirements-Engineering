@@ -111,7 +111,7 @@ public class CompanyServiceImpl implements CompanyService{
         return internshipDtos;
     }
     @Override
-    public InternshipDto getInternshipAnnouncements(Long internshipId) {
+    public InternshipDto getInternshipAnnouncement(Long internshipId) {
         Optional<Internship> internship = internshipRepository.findById(internshipId);
         return internship.map(internshipMapper::entityToDto).orElse(null);
     }
