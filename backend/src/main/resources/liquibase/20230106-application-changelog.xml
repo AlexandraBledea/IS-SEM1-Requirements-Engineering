@@ -37,4 +37,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20230107-internship-005" author="alebledea">
+        <dropColumn tableName="APPLICATIONS" columnName="OTHERS"/>
+        <addColumn tableName="APPLICATIONS">
+            <column name="OTHERS" type="VARCHAR"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
