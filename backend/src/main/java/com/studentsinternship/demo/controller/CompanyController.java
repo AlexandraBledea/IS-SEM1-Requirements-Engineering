@@ -71,6 +71,12 @@ public class CompanyController {
         return new ResponseEntity<>("Internship announcement created successfully!", HttpStatus.OK);
     }
 
+    @PostMapping("/edit-internship-announcement")
+    public ResponseEntity<String> editInternshipAnnouncement(@RequestBody CreateUpdateInternshipDto dto) {
+        companyService.createInternshipAnnouncement(dto);
+        return new ResponseEntity<>("Internship announcement updated successfully!", HttpStatus.OK);
+    }
+
     @PostMapping("/list-internship-applications")
     public ResponseEntity<List<ApplicationDto>> listInternshipApplications(@RequestBody InternshipDto internshipDto) {
         if (companyService.internshipExists(internshipDto)) {
