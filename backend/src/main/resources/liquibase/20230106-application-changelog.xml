@@ -26,4 +26,15 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="20230107-internship-004" author="alebledea">
+        <dropColumn tableName="APPLICATIONS" columnName="CV"/>
+        <addColumn tableName="APPLICATIONS">
+            <column name="CV" type="VARCHAR"/>
+        </addColumn>
+        <dropColumn tableName="APPLICATIONS" columnName="COVER_LETTER"/>
+        <addColumn tableName="APPLICATIONS">
+            <column name="COVER_LETTER" type="VARCHAR"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

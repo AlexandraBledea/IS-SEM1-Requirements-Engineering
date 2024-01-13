@@ -8,8 +8,8 @@ import lombok.Data;
 public class ApplicationDto {
     private Long id;
     private String coverLetter;
-    private byte[] cv;
-    private byte[] others;
+    private String cv;
+    private String others;
     private StudentDto student;
     private InternshipDto internship;
 }

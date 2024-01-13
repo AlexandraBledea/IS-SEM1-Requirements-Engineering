@@ -26,10 +26,10 @@ public class Application {
     private String coverLetter;
 
     @Column(name="cv")
-    private byte[] cv;
+    private String cv;
 
     @Column(name="others")
-    private byte[] others;
+    private String others;
 
     @ManyToOne()
     @JoinColumn(name="student_id")
