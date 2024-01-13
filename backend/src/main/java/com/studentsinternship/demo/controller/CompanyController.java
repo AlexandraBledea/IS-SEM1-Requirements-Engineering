@@ -48,7 +48,7 @@ public class CompanyController {
 
     @GetMapping("/view-internship-announcement")
     public ResponseEntity<InternshipDto> viewInternshipAnnouncement(@RequestBody Long internshipId) {
-        InternshipDto internshipDto = companyService.getInternshipAnnouncements(internshipId);
+        InternshipDto internshipDto = companyService.getInternshipAnnouncement(internshipId);
         if (internshipDto != null) {
             return new ResponseEntity<>(internshipDto, HttpStatus.OK);
         } else {
