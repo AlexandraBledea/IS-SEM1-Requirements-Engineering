@@ -85,8 +85,8 @@ public class StudentController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @GetMapping("/view-internship-applications")
-    public ResponseEntity<List<ApplicationDto>> viewInternshipApplication(@RequestParam Long studentId) {
+    @GetMapping("/list-internship-applications")
+    public ResponseEntity<List<ApplicationDto>> listInternshipApplications(@RequestParam Long studentId) {
         List<ApplicationDto> applicationsDto = studentService.getInternshipApplicationsForStudent(studentId);
         return new ResponseEntity<>(applicationsDto, HttpStatus.OK);
     }
@@ -103,5 +103,15 @@ public class StudentController {
         studentService.applyForInternship(dto);
         return new ResponseEntity<>("Application created successfully!", HttpStatus.OK);
 
+    }
+
+    @GetMapping("/view-internship-application")
+    public ResponseEntity<ApplicationDto> viewInternshipApplication(@RequestBody Long applicationId) {
+        ApplicationDto applicationDto = studentService.viewInternshipApplication(applicationId);
+        if (applicationDto != null) {
+            return new ResponseEntity<>(applicationDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
     }
 }

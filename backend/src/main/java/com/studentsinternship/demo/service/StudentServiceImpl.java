@@ -103,13 +103,6 @@ public class StudentServiceImpl implements StudentService {
                                                                    Long durationUpperBound) {
         List<InternshipDto> allInternships = listInternshipAnnouncements();
 
-        System.out.println("industry: " + industry);
-        System.out.println("location: " + location);
-        System.out.println("salL:" + salaryLowerBound);
-        System.out.println("salU:" + salaryUpperBound);
-        System.out.println("durL:" + durationLowerBound);
-        System.out.println("durU:" + durationUpperBound);
-
         return allInternships.stream()
                 .filter(internship ->
                         (location == null || location.isEmpty() || internship.getLocation().equalsIgnoreCase(location)) &&
@@ -120,6 +113,12 @@ public class StudentServiceImpl implements StudentService {
                                 (durationUpperBound == null || (internship.getDuration() != null && internship.getDuration() < durationUpperBound))
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ApplicationDto viewInternshipApplication(Long applicationId) {
+        Optional<Application> application = applicationRepository.findById(applicationId);
+        return application.map(applicationMapper::entityToDto).orElse(null);
     }
 
     @Override

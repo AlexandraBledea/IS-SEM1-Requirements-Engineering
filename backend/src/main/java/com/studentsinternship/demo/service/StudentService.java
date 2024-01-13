@@ -22,7 +22,7 @@ public interface StudentService {
     List<InternshipDto> listFilteredInternshipAnnouncements(String industry, String location,
                                                             Long salaryLowerBound, Long salaryUpperBound, Long durationLowerBound,
                                                             Long durationUpperBound);
-
+    ApplicationDto viewInternshipApplication(Long applicationId);
     List<ApplicationDto> getInternshipApplicationsForStudent(Long studentId);
 
     List<InternshipDto> searchInternshipAnnouncements(String query);
