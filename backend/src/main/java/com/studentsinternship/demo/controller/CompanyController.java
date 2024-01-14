@@ -60,6 +60,9 @@ public class CompanyController {
 
     @DeleteMapping("/delete-internship-announcement")
     public ResponseEntity<String> deleteInternshipAnnouncement(@RequestParam Long internshipId) {
+        if(companyService.checkIfInternshipHasApplications(internshipId)){
+            return new ResponseEntity<>("Internship was not deleted! It has applications!" , HttpStatus.OK);
+        }
         if (companyService.deleteInternshipAnnouncement(internshipId)) {
             return new ResponseEntity<>("Internship announcement deleted successfully!", HttpStatus.OK);
         } else {

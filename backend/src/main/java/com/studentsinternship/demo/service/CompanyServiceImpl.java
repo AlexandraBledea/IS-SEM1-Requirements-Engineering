@@ -122,6 +122,18 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
+    public boolean checkIfInternshipHasApplications(Long internshipId){
+
+        List<Application> applications = this.applicationRepository.findAll();
+
+        applications = applications.stream()
+                .filter(application -> application.getInternship().getId().equals(internshipId))
+                .collect(Collectors.toList());
+
+        return !applications.isEmpty();
+    }
+
+    @Override
     public List<InternshipDto> listInternshipAnnouncements(Long recruiterId) {
 
         Recruiter recruiter = this.recruiterRepository.getById(recruiterId);

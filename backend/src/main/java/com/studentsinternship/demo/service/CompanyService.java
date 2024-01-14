@@ -29,6 +29,8 @@ public interface CompanyService {
 
     boolean deleteInternshipAnnouncement(Long internshipId);
 
+    boolean checkIfInternshipHasApplications(Long internshipId);
+
     void createInternshipAnnouncement(CreateUpdateInternshipDto dto);
 
     boolean internshipExists(InternshipDto dto);
