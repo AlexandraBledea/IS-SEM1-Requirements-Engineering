@@ -4,15 +4,18 @@ import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.company.CompanyDto;
 import com.studentsinternship.demo.dto.internship.CreateUpdateInternshipDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
+import com.studentsinternship.demo.dto.recruiter.RecruiterDto;
 import com.studentsinternship.demo.entity.Application;
 import com.studentsinternship.demo.entity.Company;
 import com.studentsinternship.demo.entity.Internship;
 import com.studentsinternship.demo.mapper.ApplicationMapper;
 import com.studentsinternship.demo.mapper.CompanyMapper;
 import com.studentsinternship.demo.mapper.InternshipMapper;
+import com.studentsinternship.demo.mapper.RecruiterMapper;
 import com.studentsinternship.demo.repository.ApplicationRepository;
 import com.studentsinternship.demo.repository.CompanyRepository;
 import com.studentsinternship.demo.repository.InternshipRepository;
+import com.studentsinternship.demo.repository.RecruiterRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,9 @@ public class CompanyServiceImpl implements CompanyService{
     private final ApplicationRepository applicationRepository;
 
     @Autowired
+    private final RecruiterRepository recruiterRepository;
+
+    @Autowired
     private final CompanyMapper companyMapper;
 
     @Autowired
@@ -42,6 +48,14 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Autowired
     private final ApplicationMapper applicationMapper;
+
+    @Autowired
+    private final RecruiterMapper recruiterMapper;
+
+    @Override
+    public RecruiterDto getRecruiter(Long recruiterId) {
+        return recruiterMapper.entityToDto(recruiterRepository.getById(recruiterId));
+    }
 
     @Override
     public Company findCompanyById(Long id){
@@ -73,6 +87,9 @@ public class CompanyServiceImpl implements CompanyService{
     @Override
     public void createInternshipAnnouncement(CreateUpdateInternshipDto dto) {
         Internship internship = createUpdateInternshipDtoToInternship(dto);
+        if (dto.getId() != null) {
+            internship.setId(dto.getId());
+        }
         internshipRepository.save(internship);
     }
 
@@ -96,6 +113,11 @@ public class CompanyServiceImpl implements CompanyService{
          Company company = companyRepository.findByName(dto.getName());
 
          return company != null;
+    }
+
+    @Override
+    public List<ApplicationDto> getAllApplications() {
+        return applicationMapper.entitiesToDtos(applicationRepository.findAll());
     }
 
     @Override

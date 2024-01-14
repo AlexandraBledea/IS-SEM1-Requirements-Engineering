@@ -4,6 +4,7 @@ import com.studentsinternship.demo.dto.application.ApplicationDto;
 import com.studentsinternship.demo.dto.company.CompanyDto;
 import com.studentsinternship.demo.dto.internship.CreateUpdateInternshipDto;
 import com.studentsinternship.demo.dto.internship.InternshipDto;
+import com.studentsinternship.demo.dto.recruiter.RecruiterDto;
 import com.studentsinternship.demo.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class CompanyController {
 
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
+    }
+
+    @GetMapping("/get-recruiter")
+    public ResponseEntity<RecruiterDto> getRecruiter(@RequestParam Long recruiterId) {
+        return new ResponseEntity<>(companyService.getRecruiter(recruiterId), HttpStatus.OK);
     }
 
     @PostMapping("/add-company")
@@ -57,7 +63,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/delete-internship-announcement")
-    public ResponseEntity<String> deleteInternshipAnnouncement(@RequestBody Long internshipId) {
+    public ResponseEntity<String> deleteInternshipAnnouncement(@RequestParam Long internshipId) {
         if (companyService.deleteInternshipAnnouncement(internshipId)) {
             return new ResponseEntity<>("Internship announcement deleted successfully!", HttpStatus.OK);
         } else {
@@ -75,6 +81,11 @@ public class CompanyController {
     public ResponseEntity<String> editInternshipAnnouncement(@RequestBody CreateUpdateInternshipDto dto) {
         companyService.createInternshipAnnouncement(dto);
         return new ResponseEntity<>("Internship announcement updated successfully!", HttpStatus.OK);
+    }
+
+    @GetMapping("/list-all-applications")
+    public ResponseEntity<List<ApplicationDto>> getAllApplications() {
+        return new ResponseEntity<>(companyService.getAllApplications(), HttpStatus.OK);
     }
 
     @PostMapping("/list-internship-applications")
