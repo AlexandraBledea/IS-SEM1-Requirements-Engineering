@@ -43,13 +43,9 @@ public class CompanyController {
     }
 
     @GetMapping("/list-internship-announcements")
-    public ResponseEntity<List<InternshipDto>> listInternshipAnnouncements(@RequestBody CompanyDto dto) {
-        if (companyService.companyExists(dto)) {
-            List<InternshipDto> internships = companyService.listInternshipAnnouncements(dto);
+    public ResponseEntity<List<InternshipDto>> listInternshipAnnouncements(@RequestParam Long recruiterId) {
+            List<InternshipDto> internships = companyService.listInternshipAnnouncements(recruiterId);
             return new ResponseEntity<>(internships, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
     }
 
     @GetMapping("/view-internship-announcement")

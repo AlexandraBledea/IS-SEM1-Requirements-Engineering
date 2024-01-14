@@ -21,7 +21,7 @@ public interface CompanyService {
 
     boolean companyExists(CompanyDto dto);
 
-    List<InternshipDto> listInternshipAnnouncements(CompanyDto dto);
+    List<InternshipDto> listInternshipAnnouncements(Long recruiterId);
 
     InternshipDto getInternshipAnnouncement(Long internshipId);
 

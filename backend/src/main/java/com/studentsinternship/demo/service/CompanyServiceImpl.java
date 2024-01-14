@@ -8,6 +8,7 @@ import com.studentsinternship.demo.dto.recruiter.RecruiterDto;
 import com.studentsinternship.demo.entity.Application;
 import com.studentsinternship.demo.entity.Company;
 import com.studentsinternship.demo.entity.Internship;
+import com.studentsinternship.demo.entity.Recruiter;
 import com.studentsinternship.demo.mapper.ApplicationMapper;
 import com.studentsinternship.demo.mapper.CompanyMapper;
 import com.studentsinternship.demo.mapper.InternshipMapper;
@@ -121,10 +122,14 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
-    public List<InternshipDto> listInternshipAnnouncements(CompanyDto dto) {
+    public List<InternshipDto> listInternshipAnnouncements(Long recruiterId) {
+
+        Recruiter recruiter = this.recruiterRepository.getById(recruiterId);
+        Company company = recruiter.getCompany();
+
         List<Internship> internships = internshipRepository.findAll().stream()
-                .filter(application -> application.getCompany() != null)
-                .filter(application -> dto.getId().equals(application.getCompany().getId()))
+                .filter(internship -> internship.getCompany() != null)
+                .filter(internship -> company.getId().equals(internship.getCompany().getId()))
                 .collect(Collectors.toList());
         List<InternshipDto> internshipDtos = new ArrayList<>();
         for(Internship internship: internships) {
