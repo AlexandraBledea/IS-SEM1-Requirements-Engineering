@@ -75,12 +75,21 @@ public class UserServiceImpl implements UserService{
         }
         else {
             Company company = companyRepository.findByName(dto.getCompanyName());
-            Recruiter recruiter = Recruiter.builder()
-                    .company(company)
-                    .user(user)
-                    .build();
-
-            recruiterRepository.save(recruiter);
+            if(company == null){
+                Company newCompany = Company.builder().name(dto.getCompanyName()).build();
+                newCompany = companyRepository.save(newCompany);
+                Recruiter recruiter = Recruiter.builder()
+                        .company(newCompany)
+                        .user(user)
+                        .build();
+                recruiterRepository.save(recruiter);
+            } else {
+                Recruiter recruiter = Recruiter.builder()
+                        .company(company)
+                        .user(user)
+                        .build();
+                recruiterRepository.save(recruiter);
+            }
         }
     }
 
